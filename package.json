@@ -1,4 +1,24 @@
 {
   "name": "sysfs-gpio",
-  "version": "0.0.1"
+  "version": "1.0.0",
+  "author": "Peekayy <peekayy.dev@gmail.com>",
+  "description": "A simple sysfs based GPIO module.",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:peekayy/sysfs-gpio.git"
+  },
+  "homepage": "https://github.com/Peekayy/sysfs-gpio",
+  "main": "./lib/gpio",
+  "bugs": {
+    "url": "https://github.com/peekayy/sysfs-gpio/issues"
+  },
+  "tags": [
+    "gpio",
+    "sysfs",
+    "Promise"
+  ],
+  "dependencies": {},
+  "engines": {
+    "node": "*"
+  }
 }

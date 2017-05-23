@@ -12,6 +12,9 @@
   "bugs": {
     "url": "https://github.com/peekayy/sysfs-gpio/issues"
   },
+  "scripts": {
+    "test": "mocha"
+  },
   "tags": [
     "gpio",
     "sysfs",
@@ -20,5 +23,10 @@
   "dependencies": {},
   "engines": {
     "node": "*"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.4.1",
+    "sinon": "^2.3.1"
   }
 }

@@ -1,8 +1,8 @@
-var expect = require("chai").expect;
-var fs = require("fs");
-var sinon = require("sinon");
+const expect = require("chai").expect;
+const fs = require("fs");
+const sinon = require("sinon");
 
-var fsMap = {};
+let fsMap = {};
 
 sinon.stub(fs, "writeFile").callsFake(function(file, data, cb) {
     fsMap[file] = data;
@@ -13,26 +13,26 @@ sinon.stub(fs, "readFile").callsFake(function(file, cb) {
     cb(fsMap[file]);
 });
 
-var testGpioMapping = {
+const testGpioMapping = {
     GPIO1: 1,
     GPIO2: 2
 };
 
-var GPIO = require("../lib/gpio.js")(testGpioMapping);
+const GPIO = require("../lib/gpio.js")(testGpioMapping);
 
 describe("new GPIO", function() {
     it("should create a valid gpio using a mapped GPIO name", function() {
         var gpio = new GPIO("GPIO1");
-        expect(gpio.pin).to.be.equal("gpio1");
+        expect(gpio.pinName).to.be.equal("gpio1");
     });
 
     it("should create a valid gpio using a gpio number", function() {
         var gpio = new GPIO(1);
-        expect(gpio.pin).to.be.equal("gpio1");
+        expect(gpio.pinName).to.be.equal("gpio1");
     });
 
     it("should fail when creating gpio with unmapped GPIO name", function() {
-        expect(_=> {
+        expect(_ => {
             new GPIO("invalidGpio");
         }).to.throw(Error);
     });
@@ -40,7 +40,7 @@ describe("new GPIO", function() {
 
 describe("open()", function() {
 
-    var gpio;
+    let gpio;
 
     beforeEach(function() {
         gpio = new GPIO("GPIO1");
@@ -89,7 +89,7 @@ describe("open()", function() {
 });
 
 describe("close()", function() {
-    var gpio;
+    let gpio;
 
     beforeEach(function() {
         gpio = new GPIO("GPIO1");
@@ -109,7 +109,7 @@ describe("close()", function() {
 });
 
 describe("setValue()", function() {
-    var gpio;
+    let gpio;
 
     beforeEach(function() {
         gpio = new GPIO("GPIO1");
@@ -129,7 +129,7 @@ describe("setValue()", function() {
 });
 
 describe("setDirection()", function() {
-    var gpio;
+    let gpio;
 
     beforeEach(function() {
         gpio = new GPIO("GPIO1");

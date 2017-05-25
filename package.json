@@ -1,6 +1,6 @@
 {
   "name": "sysfs-gpio",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Peekayy <peekayy.dev@gmail.com>",
   "description": "A simple sysfs based GPIO module.",
   "repository": {

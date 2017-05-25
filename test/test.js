@@ -5,6 +5,13 @@ const sinon = require("sinon");
 let fsMap = {};
 
 sinon.stub(fs, "writeFile").callsFake(function(file, data, cb) {
+    if (file.match(/\/export$/)) {
+        if (fsMap["/sys/class/gpio/gpio" + data]) {
+            throw {message: "gpio already exported", code: "EBUSY"};
+        } else {
+            fsMap["/sys/class/gpio/gpio" + data] = "exported";
+        }
+    }
     fsMap[file] = data;
     cb();
 });
@@ -43,9 +50,9 @@ describe("open()", function() {
     let gpio;
 
     beforeEach(function() {
-        gpio = new GPIO("GPIO1");
         // reset fake fs
         fsMap = {};
+        gpio = new GPIO("GPIO1");
     });
 
     it("should write gpio1 to /sys/class/gpio/export when called bare", function(done) {
@@ -86,16 +93,23 @@ describe("open()", function() {
             });
         });
     });
+
+    it("should work even if gpio was already openned", function() {
+        return gpio.open().then(function() {
+            let gpio2 = new GPIO("GPIO1");
+            return gpio2.open();
+        });
+    });
 });
 
 describe("close()", function() {
     let gpio;
 
     beforeEach(function() {
-        gpio = new GPIO("GPIO1");
-        gpio.open();
         // reset fake fs
         fsMap = {};
+        gpio = new GPIO("GPIO1");
+        gpio.open();
     });
 
     it("should write gpio1 to /sys/class/gpio/unexport", function(done) {
@@ -112,10 +126,10 @@ describe("setValue()", function() {
     let gpio;
 
     beforeEach(function() {
-        gpio = new GPIO("GPIO1");
-        gpio.open();
         // reset fake fs
         fsMap = {};
+        gpio = new GPIO("GPIO1");
+        gpio.open();
     });
 
     it("should write \"1\" to /sys/class/gpio/gpio1/value", function(done) {
@@ -132,10 +146,10 @@ describe("setDirection()", function() {
     let gpio;
 
     beforeEach(function() {
-        gpio = new GPIO("GPIO1");
-        gpio.open();
         // reset fake fs
         fsMap = {};
+        gpio = new GPIO("GPIO1");
+        gpio.open();
     });
 
     it("should write \"out\" to /sys/class/gpio/gpio1/direction", function(done) {
